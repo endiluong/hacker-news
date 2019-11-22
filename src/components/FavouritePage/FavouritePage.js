@@ -13,13 +13,55 @@ import {
   NewsTime,
   NewsComment,
   NewsDeleteButton,
+  NewsSearchWrap,
 } from '../NewsPage/NewsPage.syled';
 
 class FavouritePage extends Component {
+  constructor(props) {
+    super(props);
+    const { wishList } = this.props;
+    this.state = {
+      wishListFilter: wishList,
+    }
+  }
+
+  componentDidMount() {
+    const { wishList } = this.props;
+
+    this.setState({
+      wishListFilter: wishList
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      wishListFilter: nextProps.wishList
+    });
+  }
+
   handleDeleteWishlist = (newsId) => {
     const { removeNewsWishList } = this.props;
     removeNewsWishList(newsId);
     ToastSuccess('This news has been deleted successfully');
+  }
+
+  handleChange = (e) => {
+    let newWishList = [];
+    const { wishList } = this.props;
+
+    if (e.target.value !== '') {
+      newWishList = wishList.filter(item => {
+        const lc = item.title.toLowerCase();
+        const filter = e.target.value.toLowerCase();
+        return lc.includes(filter);
+      });
+    } else {
+      newWishList = wishList
+    }
+
+    this.setState({
+      wishListFilter: newWishList,
+    });
   }
 
   renderNewsItem = (items, index) => {
@@ -50,12 +92,16 @@ class FavouritePage extends Component {
   }
 
   render() {
-    const { wishList } = this.props;
+    const { wishListFilter } = this.state;
 
     return (
       <Dashboard>
+        <NewsSearchWrap>
+          <input type='text' placeholder='Search news ...' onChange={this.handleChange} />
+        </NewsSearchWrap>
+
         <NewsPageContainer>
-          {wishList.map(this.renderNewsItem)}
+          {wishListFilter.map(this.renderNewsItem)}
         </NewsPageContainer>
       </Dashboard>
     );

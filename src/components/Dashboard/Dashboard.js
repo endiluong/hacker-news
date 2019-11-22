@@ -12,7 +12,7 @@ class Dashboard extends Component {
       <DashboardContainer>
         <DashboardTabList>
           <DashboardTabItem>
-            <Link to="/news">
+            <Link to="/">
               News
             </Link>
           </DashboardTabItem>
@@ -24,7 +24,6 @@ class Dashboard extends Component {
         </DashboardTabList>
 
         {this.props.children}
-
       </DashboardContainer>
     );
   }

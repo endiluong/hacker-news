@@ -13,11 +13,25 @@ import {
   NewsTime,
   NewsComment,
   NewsWishlist,
+  NewsSearchWrap,
 } from './NewsPage.syled';
 
 class NewsPage extends Component {
-  componentDidMount = () => {
-    const { fetchNewsList } = this.props;
+  constructor(props) {
+    super(props);
+    const { newsItemList } = this.props;
+    this.state = {
+      newsListFilter: newsItemList,
+    }
+  }
+
+  componentDidMount() {
+    const { fetchNewsList, newsItemList } = this.props;
+
+    this.setState({
+      newsListFilter: newsItemList
+    });
+
     fetchNewsList();
   }
 
@@ -33,6 +47,23 @@ class NewsPage extends Component {
 
     removeNewsWishList(newsId);
     ToastSuccess('This news has been removed successfully');
+  }
+
+  handleChange = (e) => {
+    let newNewsList = [];
+    const { newsItemList } = this.props;
+    if (e.target.value !== "") {
+      newNewsList = newsItemList.filter(item => {
+        const lc = item.title.toLowerCase();
+        const filter = e.target.value.toLowerCase();
+        return lc.includes(filter);
+      });
+    } else {
+      newNewsList = newsItemList
+    }
+    this.setState({
+      newsListFilter: newNewsList,
+    });
   }
 
   renderNewsItem = (items, index) => {
@@ -66,11 +97,16 @@ class NewsPage extends Component {
   }
 
   render() {
-    const { newsItemList} = this.props;
+    const { newsListFilter } = this.state;
+
     return (
       <Dashboard>
+        <NewsSearchWrap>
+          <input type='text' placeholder='Search news ...' onChange={this.handleChange} />
+        </NewsSearchWrap>
+
         <NewsPageContainer>
-          {newsItemList.map(this.renderNewsItem)}
+          {newsListFilter.map(this.renderNewsItem)}
         </NewsPageContainer>
       </Dashboard>
     );

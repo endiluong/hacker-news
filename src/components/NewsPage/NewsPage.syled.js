@@ -62,3 +62,19 @@ export const NewsDeleteButton = styled.div`
     color: red;
   }
 `;
+
+export const NewsSearchWrap = styled.div`
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  input {
+    border-radius: 15px;
+    padding: 8px 12px;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    &::placeholder {
+      font-style: italic;
+      opacity: .7;
+    }
+  }
+`;
