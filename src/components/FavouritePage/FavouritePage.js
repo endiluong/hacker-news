@@ -12,35 +12,20 @@ import {
   NewsAuthor,
   NewsTime,
   NewsComment,
-  NewsWishlist,
-} from './NewsPage.syled';
+  NewsDeleteButton,
+} from '../NewsPage/NewsPage.syled';
 
-class NewsPage extends Component {
-  componentDidMount = () => {
-    const { fetchNewsList } = this.props;
-    fetchNewsList();
-  }
-
-  handleWishList = (newsId) => {
-    const { addNewsWishList } = this.props;
-
-    addNewsWishList(newsId);
-    ToastSuccess('This news has been moved successfully');
-  }
-
-  handleRemoveWishList = (newsId) => {
+class FavouritePage extends Component {
+  handleDeleteWishlist = (newsId) => {
     const { removeNewsWishList } = this.props;
-
     removeNewsWishList(newsId);
-    ToastSuccess('This news has been removed successfully');
+    ToastSuccess('This news has been deleted successfully');
   }
 
   renderNewsItem = (items, index) => {
     const { title, score, by: author, url, time, kids = [] } = items;
-    const { newsWishList } = this.props;
     const displayComment = kids.length > 1 ? 'comments' : 'comment';
     const newsTime = moment.duration(time).humanize();
-    const newSelected = newsWishList.find(wl => wl.id === items.id);
 
     return (
       <NewsItemWrap key={index}>
@@ -53,28 +38,28 @@ class NewsPage extends Component {
             <NewsTime>{` - ${newsTime} - `}</NewsTime>
             <NewsComment>{`${kids.length || '0'} ${displayComment}`}</NewsComment>
             <NewsPoint>{` - `}</NewsPoint>
-            <NewsWishlist
-              isWishList={newSelected}
-              onClick={() => newSelected ? this.handleRemoveWishList(items.id) : this.handleWishList(items.id)}
-            >
-              &#10084;
-            </NewsWishlist>
+
           </NewsActionWrap>
         </NewsItemContentWrap>
+
+        <NewsDeleteButton onClick={() => this.handleDeleteWishlist(items.id)}>
+          &#10005;
+        </NewsDeleteButton>
       </NewsItemWrap>
     )
   }
 
   render() {
-    const { newsItemList} = this.props;
+    const { wishList } = this.props;
+
     return (
       <Dashboard>
         <NewsPageContainer>
-          {newsItemList.map(this.renderNewsItem)}
+          {wishList.map(this.renderNewsItem)}
         </NewsPageContainer>
       </Dashboard>
     );
   }
 }
 
-export default NewsPage;
+export default FavouritePage;

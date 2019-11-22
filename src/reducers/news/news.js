@@ -1,10 +1,12 @@
 // action definition
+import { createSelector } from 'reselect';
 
 export const NEWS_FETCH_NEWS_LIST = 'news/NEWS_FETCH_NEWS_LIST';
 export const NEWS_FETCH_NEWS_LIST_SUCCESS = 'news/NEWS_FETCH_NEWS_LIST_SUCCESS';
 export const NEWS_FETCH_NEWS_LIST_FAIL = 'news/NEWS_FETCH_NEWS_LIST_FAIL';
 
 export const NEWS_ADD_WISH_LIST = 'news/NEWS_ADD_WISH_LIST';
+export const NEWS_REMOVE_WISH_LIST = 'news/NEWS_REMOVE_WISH_LIST';
 
 // selectors
 export const getNewsItemList = ({ news }) => news.newsItemList;
@@ -14,7 +16,6 @@ export const isNewsLoading = ({ news }) => news.isLoading;
 export const selectors = {
   getNewsItemList,
   getNewsWishList,
-
   isNewsLoading,
 };
 
@@ -44,12 +45,20 @@ export const addNewsWishList = newsId => ({
   },
 });
 
+export const removeNewsWishList = newsId => ({
+  type: NEWS_REMOVE_WISH_LIST,
+  payload: {
+    newsId,
+  },
+});
+
 export const actions = {
   fetchNewsList,
   fetchNewsListSuccess,
   fetchNewsListFail,
 
   addNewsWishList,
+  removeNewsWishList,
 };
 
 // reducers
@@ -59,7 +68,7 @@ const initialState = {
   isLoading: null,
   errorMsg: null,
 
-  newsWishList: {},
+  newsWishList: [],
 };
 
 export default function (state = initialState, action) {
@@ -93,19 +102,27 @@ export default function (state = initialState, action) {
     case NEWS_ADD_WISH_LIST: {
       const { newsId } = action.payload;
       const { newsWishList } = state;
-      const newsSelected = newsWishList[newsId] || {
+      const newsSelected = {
         id: newsId,
         moved: false,
       };
       return {
         ...state,
-        newsWishList: {
+        newsWishList: [
           ...newsWishList,
-          [newsId]: {
-            ...newsSelected,
-            moved: !newsSelected.moved,
-          },
-        },
+          newsSelected,
+        ],
+      };
+    }
+
+    case NEWS_REMOVE_WISH_LIST: {
+      const { newsId } = action.payload;
+      const { newsWishList } = state;
+      const newsSelected = newsWishList.filter(wl => wl.id !== newsId);
+
+      return {
+        ...state,
+        newsWishList: newsSelected,
       };
     }
 

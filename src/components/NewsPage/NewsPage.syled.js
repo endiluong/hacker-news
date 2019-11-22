@@ -54,3 +54,11 @@ export const NewsWishlist = styled(NewsPoint)`
     color: red;
   `}
 `;
+
+export const NewsDeleteButton = styled.div`
+  margin-left: auto;
+  cursor: pointer;
+  &:hover {
+    color: red;
+  }
+`;

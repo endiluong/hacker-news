@@ -16,7 +16,11 @@ class Dashboard extends Component {
               News
             </Link>
           </DashboardTabItem>
-          <DashboardTabItem>Favourite</DashboardTabItem>
+          <DashboardTabItem>
+            <Link to="/favourite">
+              Favourite
+            </Link>
+          </DashboardTabItem>
         </DashboardTabList>
 
         {this.props.children}
