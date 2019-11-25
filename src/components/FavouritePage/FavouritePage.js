@@ -77,10 +77,8 @@ class FavouritePage extends Component {
           <NewsActionWrap>
             <NewsPoint>{`${score} points`}</NewsPoint>
             <NewsAuthor>{`by ${author}`}</NewsAuthor>
-            <NewsTime>{` - ${newsTime} - `}</NewsTime>
+            <NewsTime>{` - ${newsTime} ago - `}</NewsTime>
             <NewsComment>{`${kids.length || '0'} ${displayComment}`}</NewsComment>
-            <NewsPoint>{` - `}</NewsPoint>
-
           </NewsActionWrap>
         </NewsItemContentWrap>
 

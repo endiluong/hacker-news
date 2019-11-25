@@ -14,3 +14,17 @@ export const getNewsItem = (newsId) => {
     .then(response => ({ response }))
     .catch(handleError);
 };
+
+export const getAllComment = (commentId) => {
+  const url = `https://hacker-news.firebaseio.com/v0/item/${commentId}.json?print=pretty`;
+  return axios.get(url)
+    .then(response => ({ response }))
+    .catch(handleError);
+};
+
+export const getAllReply = (replyId) => {
+  const url = `https://hacker-news.firebaseio.com/v0/item/${replyId}.json?print=pretty`;
+  return axios.get(url)
+    .then(response => ({ response }))
+    .catch(handleError);
+};

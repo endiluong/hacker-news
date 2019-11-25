@@ -66,12 +66,17 @@ class NewsPage extends Component {
     });
   }
 
+  handleFecthComment = (commentIdList, newsId) => {
+    const { fetchCommentList } = this.props;
+    fetchCommentList(commentIdList, newsId);
+  }  
+
   renderNewsItem = (items, index) => {
-    const { title, score, by: author, url, time, kids = [] } = items;
+    const { title, score, by: author, url, time, kids = [], id } = items;
     const { newsWishList } = this.props;
     const displayComment = kids.length > 1 ? 'comments' : 'comment';
     const newsTime = moment.duration(time).humanize();
-    const newSelected = newsWishList.find(wl => wl.id === items.id);
+    const newSelected = newsWishList.find(wl => wl.id === id);
 
     return (
       <NewsItemWrap key={index}>
@@ -81,12 +86,12 @@ class NewsPage extends Component {
           <NewsActionWrap>
             <NewsPoint>{`${score} points`}</NewsPoint>
             <NewsAuthor>{`by ${author}`}</NewsAuthor>
-            <NewsTime>{` - ${newsTime} - `}</NewsTime>
-            <NewsComment>{`${kids.length || '0'} ${displayComment}`}</NewsComment>
+            <NewsTime>{` - ${newsTime} ago - `}</NewsTime>
+            <NewsComment onClick={() => this.handleFecthComment(kids, id)}>{`${kids.length || '0'} ${displayComment}`}</NewsComment>
             <NewsPoint>{` - `}</NewsPoint>
             <NewsWishlist
               isWishList={newSelected}
-              onClick={() => newSelected ? this.handleRemoveWishList(items.id) : this.handleWishList(items.id)}
+              onClick={() => newSelected ? this.handleRemoveWishList(id) : this.handleWishList(id)}
             >
               &#10084;
             </NewsWishlist>

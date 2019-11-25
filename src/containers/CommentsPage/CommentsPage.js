@@ -1,26 +1,24 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import NewsPage from '../../components/NewsPage';
+import CommentsPage from '../../components/CommentsPage';
 import {
   selectors as NewsSelectors,
   actions as NewsActions,
 } from '../../reducers/news';
 
 const mapStateToProps = (state) => ({
-  newsItemList: NewsSelectors.getNewsItemList(state),
-  newsWishList: NewsSelectors.getNewsWishList(state),
+  commentList: NewsSelectors.getCommentList(state),
+  replyList: NewsSelectors.getReplyList(state),
 });
 
 const mapDispatchToProps = {
-  fetchNewsList: NewsActions.fetchNewsList,
-  addNewsWishList: NewsActions.addNewsWishList,
-  removeNewsWishList: NewsActions.removeNewsWishList,
   fetchCommentList: NewsActions.fetchCommentList,
+  fetchReplyList: NewsActions.fetchReplyList,
 };
 
 export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(NewsPage),
+  )(CommentsPage),
 );
