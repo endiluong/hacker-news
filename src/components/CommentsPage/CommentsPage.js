@@ -46,7 +46,6 @@ class CommentsPage extends Component {
     const { replyList } = this.props;
     const commentTime = moment.duration(time).humanize();
     const haveReply = _every(replyList, ['parent', item.id]);
-    console.log('replyList', !!replyList.length);
 
     return (
       <CommentItemWrap key={index}>

@@ -64,8 +64,14 @@ class FavouritePage extends Component {
     });
   }
 
+  handleFecthComment = (commentIdList, newsId) => {
+    const { fetchCommentList } = this.props;
+    fetchCommentList(commentIdList, newsId);
+  }  
+
+
   renderNewsItem = (items, index) => {
-    const { title, score, by: author, url, time, kids = [] } = items;
+    const { title, score, by: author, url, time, kids = [], id } = items;
     const displayComment = kids.length > 1 ? 'comments' : 'comment';
     const newsTime = moment.duration(time).humanize();
 
@@ -78,11 +84,11 @@ class FavouritePage extends Component {
             <NewsPoint>{`${score} points`}</NewsPoint>
             <NewsAuthor>{`by ${author}`}</NewsAuthor>
             <NewsTime>{` - ${newsTime} ago - `}</NewsTime>
-            <NewsComment>{`${kids.length || '0'} ${displayComment}`}</NewsComment>
+            <NewsComment onClick={() => this.handleFecthComment(kids, id)}>{`${kids.length || '0'} ${displayComment}`}</NewsComment>
           </NewsActionWrap>
         </NewsItemContentWrap>
 
-        <NewsDeleteButton onClick={() => this.handleDeleteWishlist(items.id)}>
+        <NewsDeleteButton onClick={() => this.handleDeleteWishlist(id)}>
           &#10005;
         </NewsDeleteButton>
       </NewsItemWrap>

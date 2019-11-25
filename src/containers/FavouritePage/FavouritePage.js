@@ -19,6 +19,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   removeNewsWishList: NewsActions.removeNewsWishList,
+  fetchCommentList: NewsActions.fetchCommentList,
 };
 
 export default withRouter(
